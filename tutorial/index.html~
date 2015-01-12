@@ -232,7 +232,7 @@ POST  /postJsonDataForExcelConversion/:fileName  controllers.Application.process
 Ok(views.html.index("Please select one option")("")(lOfBusUnits)).withSession(
 "fileId" -> RandomCode.generateRandomCode(5), "fileCleanUpNeeded" -> "no")
 </code></pre>
-<p> This Random Number is generated with the objective of handling different users at the same time and avoiding conflict at the time of downloading their respective files. I guess in a full fledged application, the standard way to avoid conflict would be to take the users name,- which must be unique,- and use it to assign to name the file.  In this particular template, since handling users, passwords and associated security is out of its scope, we are employing this Random Number Generator to avoid conflict.  The code below shows how we are integrating the "fileId" value to the file name, before its creation</p>
+<p> This Random Number is generated with the objective of handling different users at the same time and avoiding conflict at the time of downloading their respective files. I guess in a full fledged application, the standard way to avoid conflict would be to take the users name,- which must be unique,- and use it to assign to name the file.  In this particular template, since handling users, passwords and associated security is out of its scope, we are employing this Random Number Generator to avoid conflict.  The code below shows how we are integrating the "fileId" value to the file name</p>
 <pre><code>
 val fileNameAndPath  = ExcelConverter.excelConv(fileName + "-" + request.session.get("fileId").getOrElse("noFileIdInSesion"), 
                                                          mainPathForFiles, 
@@ -243,7 +243,7 @@ val fileNameAndPath  = ExcelConverter.excelConv(fileName + "-" + request.session
 <pre><code>
 request.session.get("fileId").getOrElse("11")
 </code></pre>
-<p> Since the get("fileId") command returns a String Option, I am appending a getOrElse("11") to convert it to a String.  I cannot think of any reason why this "getOrElse" command executed on the String Option should go to the "Else" alternative (instead of "get"), as the "fileId" value is assigned at the beginning of the Session and kept there all the time.  But if for some strange, unknown reason this happened, then the number integrated in the file name would be 11 </p>
+<p> Since the get("fileId") command returns a String Option, I am appending a getOrElse("11") to convert it to a String.  I cannot think of any reason why this getOrElse command executed on the String Option should go to the "Else" alternative, as the "fileId" value is assigned at the beginning of the Session and kept there all the time.  But if for some strange, unknown reason this happened, then the number integrated in the file name would be 11 </p>
 <p> The other Session key value pair, with the key "fileCleanUpNeeded", is used to perform file erasure after the file has been produced and downloaded, to free disk space. Please take a look above to the "File Cleaning" Section if you want to know more detail on this. </p>
 </div>
 </body>
